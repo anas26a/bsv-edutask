@@ -1,0 +1,125 @@
+Here’s the text content extracted from **pa1417-tutorial3-gui_testing.pptx.pdf** for AI processing:
+
+---
+
+### **PA1417: Basic System Verification**  
+**Tutorial 3: GUI Testing with Cypress**  
+*Julian Frattini*  
+
+---
+
+#### **Challenges of Test Automation**  
+- **Backend Testing**: Interfaces are well-defined (e.g., function parameters).  
+- **Frontend Testing**: Requires identifying UI elements (buttons, input fields, etc.).  
+- **Key Questions**:  
+  - What ground truth is used to design test cases?  
+  - Can these tests be automated?  
+
+---
+
+#### **Ground Truth for Test Design**  
+- **Backend Tests**: Use docstrings/specifications.  
+- **Frontend Tests**: Use **use cases** and **user stories** as the oracle.  
+
+---
+
+### **4-Step Test Design Technique**  
+**Application to a Use Case**  
+1. **Identify Actions**: User interactions (e.g., click "Login", enter credentials).  
+2. **Expected Outcomes**: Result of actions (e.g., redirect to dashboard).  
+3. **Conditions**: Pre/post-conditions (e.g., valid credentials).  
+4. **Test Cases**: Derive test cases from the above.  
+
+**Example Use Case: Login**  
+| Step | Action | Expected Outcome | Condition |  
+|------|--------|------------------|-----------|  
+| 1 | Enter email/password | Credentials displayed | Valid input |  
+| 2 | Click "Login" | Redirect to task overview | Correct credentials |  
+
+---
+
+### **Testing Frameworks for GUI Testing**  
+1. **Selenium** (https://www.selenium.dev/)  
+2. **Cypress** (https://www.cypress.io/)  
+   - Supports **component tests** (unit tests for UI elements).  
+   - Supports **E2E tests** (functional/scenario tests).  
+   - **Focus**: E2E tests for Assignment 4.  
+
+---
+
+### **Setting Up Cypress**  
+**Requirements**:  
+1. Install `npx` (via `npm install npx`).  
+2. In the frontend folder:  
+   ```bash  
+   npm install -D cypress  
+   ```  
+3. Launch Cypress test runner:  
+   ```bash  
+   npx cypress open  
+   ```  
+
+**Test Scope**:  
+- **Component Tests**: Isolated UI elements.  
+- **E2E Tests**: Full system workflows (GUI → Server → Database).  
+
+---
+
+### **Cypress Commands**  
+Key commands for simulating user interactions:  
+- **`cy.get()`**: Select DOM elements (CSS-like selectors).  
+- **`cy.contains()`**: Find elements by text.  
+- **`cy.find()`**: Locate descendant elements.  
+- **`cy.should()`**: Assertions (e.g., check element visibility).  
+- **`cy.trigger()`**: Simulate events (e.g., click, hover).  
+
+**Example Test Case**:  
+```javascript  
+// Test login functionality  
+cy.get('#email').type('user@example.com');  
+cy.get('#password').type('password123');  
+cy.get('#login-button').click();  
+cy.url().should('include', '/task-overview');  
+```  
+
+---
+
+### **E2E Test Execution**  
+1. **Test Runner**: Lists specifications and test cases.  
+2. **Playback**: Step-by-step execution visualization.  
+3. **Debugging**: Hover over steps to inspect targeted elements.  
+
+---
+
+### **Cypress Fixtures for Setup**  
+Use fixtures to manage test data and setup/teardown:  
+1. **Define Variables**: Store test data in `fixtures/`.  
+2. **Issue API Calls**: Interact with the backend.  
+3. **Cleanup**: Reset state after tests.  
+
+**Example**:  
+```javascript  
+// Load user data from fixture  
+cy.fixture('user.json').then((user) => {  
+  cy.login(user.email, user.password);  
+});  
+```  
+
+---
+
+### **GUI Testing Approach Summary**  
+1. **Test Design**: Transform use cases into test cases.  
+2. **Test Implementation**: Translate into Cypress code.  
+3. **Execution & Evaluation**: Run tests and analyze results.  
+
+**Key Differences**:  
+- **Oracle**: Use cases instead of docstrings.  
+- **Framework**: Cypress instead of Pytest.  
+
+---
+
+### **References**  
+- Cypress Documentation: [https://docs.cypress.io](https://docs.cypress.io)  
+- Example GitHub Forms for Quizzes (linked in original content).  
+
+---

@@ -1,0 +1,143 @@
+Here’s the text content extracted from **pa1417-tutorial2-integration_testing.pptx.pdf** for AI processing:
+
+---
+
+### **PA1417: Basic System Verification**  
+**Tutorial 2: Integration Testing with Pytest**  
+*Julian Frattini*  
+
+---
+
+#### **Tutorial Structure**  
+- Hands-on examples using **pytest** (no need to code live; examples are pre-configured in the repository).  
+- Focus on **integration testing** principles and mocking dependencies.  
+- All code is located in `backend/test/demo/`.  
+
+---
+
+### **Tutorial Content Overview**  
+1. **Recap: Mocking**  
+   - Definition: Substituting parts of the system with mocks/stubs.  
+   - Reasons for mocking:  
+     - Isolate the System Under Test (SUT).  
+     - Handle non-deterministic or expensive dependencies.  
+     - Test scenarios where dependencies are not yet implemented.  
+
+2. **Handling Different Types of Dependencies**  
+   - **Dependency Injection**: Inject mocked dependencies into the SUT.  
+   - **Hard-coded Dependencies**: Use `unittest.mock.patch` to replace dependencies.  
+
+3. **Mocking Impure Functions**  
+   - Control side effects (e.g., random number generators, external APIs).  
+
+4. **System State Management**  
+   - Ensure test reliability by cleaning up system state after tests.  
+   - Use `yield` fixtures for post-test teardown.  
+
+---
+
+### **The Basic Concept of Mocking**  
+- **Purpose**: Simulate behavior of dependencies to isolate the SUT.  
+- **Example**:  
+  ```python  
+  # Without mocking  
+  result = calculate_total()  # Depends on external API  
+
+  # With mocking  
+  mock_api.return_value = 100  # Fixed return value  
+  result = calculate_total()  # Test logic independently  
+  ```  
+
+---
+
+### **Reasons for Mocking**  
+| Scenario | Description |  
+|---------|-------------|  
+| **Isolation** | Ensure failures are due to SUT defects, not dependencies. |  
+| **Unimplemented Dependencies** | Test SUT before all components are ready. |  
+| **Non-deterministic Logic** | Replace random or unpredictable outputs (e.g., dice rolls). |  
+| **Costly Operations** | Avoid expensive computations or external calls. |  
+
+---
+
+### **Dependency Injection vs. Hard-coded Dependencies**  
+| **Dependency Injection** | **Hard-coded Dependencies** |  
+|--------------------------|------------------------------|  
+| Explicitly inject dependencies into the SUT. | Dependencies are created internally by the SUT. |  
+| Easier to test: Replace dependencies with mocks. | Harder to test: Requires patching. |  
+| Example:  
+```python  
+helper = ValidationHelper(user_controller=mock)  
+``` | Example:  
+```python  
+class ValidationHelper:  
+    def __init__(self):  
+        self.controller = UserController()  
+``` |  
+
+---
+
+### **Mocking Hard-coded Dependencies**  
+Use `unittest.mock.patch` to replace dependencies in their **namespace**:  
+```python  
+from unittest.mock import patch  
+
+@patch('src.util.helpers.UserController')  
+def test_validation(mock_user_controller):  
+    mock_user_controller.get.return_value = {"age": 18}  
+    helper = ValidationHelper()  
+    assert helper.validate_user(1) == "valid"  
+```  
+
+---
+
+### **Namespaces and Patching**  
+- Patch the dependency in the **namespace of the unit that depends on it**.  
+- Example:  
+  ```python  
+  # If ValidationHelper imports UserController from src.controllers.usercontroller:  
+  @patch('src.util.helpers.UserController')  # Correct namespace  
+  def test_validation(mock):  
+      ...  
+  ```  
+
+---
+
+### **Mocking Impure Functions**  
+Control non-deterministic behavior (e.g., random dice rolls):  
+```python  
+from unittest.mock import patch  
+
+@patch('random.randint')  
+def test_dice_roll(mock_randint):  
+    mock_randint.return_value = 6  # Fixed result  
+    assert roll_dice() == 6  
+```  
+
+---
+
+### **Ensuring Test Case Reliability**  
+1. **System State Changes**:  
+   - Integration tests often modify system state (e.g., create files, update databases).  
+2. **Post-Test Cleanup**:  
+   - Use `yield` fixtures to clean up after tests:  
+     ```python  
+     @pytest.fixture  
+     def setup_file():  
+         f = open("test.txt", "w")  
+         yield f  
+         f.close()  # Cleanup after test  
+     ```  
+
+---
+
+### **Key Takeaways**  
+1. Use **mocking** to isolate the SUT from dependencies.  
+2. Prefer **dependency injection** for easier testing.  
+3. Use `patch` for hard-coded dependencies.  
+4. Manage system state with `yield` fixtures.  
+5. Avoid flaky tests by controlling non-deterministic logic.  
+
+---
+
+Let me know if you need further refinements!

@@ -1,0 +1,106 @@
+Here’s the text content extracted from the **PA1417 L6 Non-functional testing-1.pdf** for AI processing:
+
+---
+
+### **Basics of Non-functional Testing**  
+**PA1417 Lecture Unit 6**  
+
+---
+
+#### **Organizational Updates**  
+- Resubmission deadlines for Lab Units 1 and 2 are now available on Canvas.  
+- Julian will be unavailable on Thursday and Friday (2nd & 3rd May).  
+  - For Lab 2 Assignment 5 questions, attend the seminar (led by Eriks this week).  
+  - For technical queries on Assignments 1-4, contact Julian via email/Discord by **1st May**.  
+
+---
+
+#### **Goals**  
+**Part I: Reiteration of Test Implementation Principles**  
+- Test case independence.  
+- Exploratory testing.  
+
+**Part II: Non-functional Testing**  
+- Approaches to test system quality.  
+- Test design techniques for non-functional requirements.  
+- Determine "good-enough" thresholds and interpret results.  
+
+---
+
+### **Part I: Test Implementation Principles**  
+
+#### **Test Case Independence**  
+- **Principle**: Test cases must be independent of each other and the environment.  
+  - Failures in one test should not propagate to others.  
+  - Tests should run in isolation or random order.  
+- **Solution**: Use reliable **setup/teardown** (fixtures) for each test.  
+
+**Example**:  
+```  
+test_createObject() → fixture_createObject()  
+test_updateObject() → fixture_createObject()  
+test_deleteObject() → fixture_deleteObject()  
+```  
+
+#### **Exploratory Testing**  
+- **Definition**: Simultaneous learning, test design, and execution (no rigid scripts).  
+- **Use Cases**:  
+  - When specifications are incomplete, wrong, or time-constrained.  
+  - Leverage experience, error-guessing, or checklists.  
+- **Example**: Testing "valid" music names without clear requirements (e.g., edge cases like special characters).  
+
+---
+
+### **Part II: Non-functional Testing**  
+
+#### **Functional vs. Non-functional Testing**  
+| **Functional** | **Non-functional** |  
+|----------------|--------------------|  
+| Focuses on **what** the system does (e.g., user makes a hotel reservation). | Focuses on **how** the system works (e.g., usability, security, scalability). |  
+
+#### **Software Quality Attributes**  
+Common attributes:  
+1. **Reliability**: Handle errors and erroneous input.  
+2. **Testability**: Ease of testing the system.  
+3. **Interoperability**: Work with other systems.  
+4. **Durability**: Ensure committed transactions survive permanently.  
+5. **Scalability**: Handle growing workloads.  
+6. **Performance**: Useful work accomplished.  
+7. **Availability**: Probability of operating satisfactorily at any time.  
+
+#### **Dynamic vs. Static Qualities**  
+- **Dynamic**: Require system execution (e.g., response time, resource usage).  
+- **Static**: Evaluated without execution (e.g., code modularity, testability).  
+
+#### **Code Reviews**  
+- **Purpose**: Ensure code quality, extensibility, and adherence to standards.  
+- **Guidelines**:  
+  - Google’s [Engineering Practices](https://google.github.io/eng-practices/review/reviewer/).  
+  - GitLab’s [Code Review](https://docs.gitlab.com/ee/development/code_review.html).  
+
+#### **Testing Non-functional Requirements**  
+1. **Steps**:  
+   - Define requirements and priorities.  
+   - Design test cases (mix of tools and manual methods).  
+   - Establish baselines and breakpoints for "good-enough" quality.  
+2. **Tools**:  
+   - **Dynamic**: pytest-benchmark, load testers, accessibility checkers.  
+   - **Static**: Code linters (e.g., SonarCube), manual reviews.  
+
+---
+
+#### **Quiz: Software Quality Attributes**  
+Match the descriptions to attributes:  
+1. Handles errors during execution. → **Reliability**  
+2. Supports testing in a given context. → **Testability**  
+3. Works with other systems. → **Interoperability**  
+4. Ensures transaction permanence. → **Durability**  
+5. Handles growing workloads. → **Scalability**  
+6. Measures useful work. → **Performance**  
+7. Probability of satisfactory operation. → **Availability**  
+
+---
+
+**Break**  
+
+--- 

@@ -27,4 +27,4 @@ An explicit definition of a quality is necessary before testing because it provi
 - **Reliability:**
   - Execute automated test suites (unit, integration, E2E) to ensure consistent behavior.
   - Use fault injection and stress testing to observe system behavior under failure conditions.
-  - Monitor system logs and error rates during operation. 
+  - Monitor system logs and error rates during operation.
