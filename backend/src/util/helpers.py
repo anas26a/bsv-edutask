@@ -1,6 +1,6 @@
 from src.controllers.usercontroller import UserController
 from src.util.dao import DAO
-from random import randint
+import random
 
 def hasAttribute(obj: dict, attribute: str):
     """Check whether a given dict contains a specific attribute
@@ -13,10 +13,7 @@ def hasAttribute(obj: dict, attribute: str):
         True -- if the dict contains the attribute as a key
         False -- if the dict does not contain the attribute as a key or is None    
     """
-    try:
-        return attribute in obj
-    except TypeError:
-        return False
+    return (attribute in obj)
 
 class ValidationHelper:
     def __init__(self, usercontroller: UserController):
@@ -37,7 +34,7 @@ class ValidationHelper:
 
         if user['age'] < 0 or user['age'] > 120:
             return "invalid"
-        if user['age'] >= 18:
+        if user['age'] > 18:
             return "valid"
         return "underaged"
 
@@ -62,7 +59,7 @@ class ValidationHelper2:
 
         if user['age'] < 0 or user['age'] > 120:
             return "invalid"
-        if user['age'] >= 18:
+        if user['age'] > 18:
             return "valid"
         return "underaged"
 
@@ -73,5 +70,8 @@ def diceroll():
         True -- if the rolled number is higher than a 4
         False -- else
     """
-    number = randint(1, 6)
-    return number > 4
+    number = random.randint(1, 6)
+
+    if number >= 4:
+        return True
+    return False
