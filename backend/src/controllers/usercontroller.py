@@ -4,7 +4,8 @@ from src.util.dao import DAO
 import re
 import warnings
 
-emailValidator = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+emailValidator = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+
 
 class UserController(Controller):
     def __init__(self, dao: DAO):
